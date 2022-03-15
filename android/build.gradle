@@ -9,6 +9,10 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        // 1.gradle 插件与gradle版本对应关系，参看下面的文档：3.5.3对应修改D:\Web-project\rn_app\android\gradle\wrapper文件下
+        // 的gradle-wrapper.properties文件
+        // distributionUrl = https \：//services.gradle.org/distributions/gradle-5.4.1-all.zip
+        // https://blog.csdn.net/u013247461/article/details/103742718/
     }
 }
 
