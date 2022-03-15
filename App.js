@@ -25,21 +25,6 @@ const instructions = Platform.select({
 		'Double tap R on your keyboard to reload,\n' +
 		'Shake or press menu button for dev menu'
 });
-// 子组件Item定义
-const DATA = [
-	{
-		id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-		title: 'First Item'
-	},
-	{
-		id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-		title: 'Second Item'
-	},
-	{
-		id: '58694a0f-3da1-471f-bd96-145571e29d72',
-		title: 'Third Item'
-	}
-];
 const Item = (title) => {
 	return (
 		<View style={styles.item}>
@@ -52,9 +37,26 @@ const Item = (title) => {
 export default class App extends Component<{}> {
 	constructor(props) {
 		super(props);
+		this.state = {
+			DATA: [
+				{
+					id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+					title: 'First Item'
+				},
+				{
+					id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+					title: 'Second Item'
+				},
+				{
+					id: '58694a0f-3da1-471f-bd96-145571e29d72',
+					title: 'Third Item'
+				}
+			]
+		};
 	}
+
 	render() {
-		const renderItem = ({ item }) => {
+		const renderItem = (item) => {
 			<Item title={item.title} />;
 		};
 		return (
@@ -74,22 +76,27 @@ export default class App extends Component<{}> {
 					<Image
 						source={require('./model.jpg')}
 						style={{ width: '50%', height: '50%' }}
+						resizeMode="cover"
 					/>
 					<Image
 						source={require('./model.jpg')}
 						style={{ width: '50%', height: '50%' }}
+						resizeMode="cover"
 					/>
 					<Image
 						source={require('./model.jpg')}
 						style={{ width: '50%', height: '50%' }}
+						resizeMode="cover"
 					/>
 					<Image
 						source={require('./model.jpg')}
 						style={{ width: '50%', height: '50%' }}
+						resizeMode="cover"
 					/>
 					<Image
 						source={require('./model.jpg')}
 						style={{ width: '50%', height: '50%' }}
+						resizeMode="cover"
 					/>
 					{/* 图片标签如果是网络图片，必须显式定义宽和高，否则图片无法显示,注意source中键是uri,不是url
       有时候，即时设置了宽高，网络图片也不显示 */}
@@ -100,17 +107,18 @@ export default class App extends Component<{}> {
 						}}
 					/>
 					{/* Button按钮，必须声明title和onPress属性，onPress属性是点击后实现的某些逻辑*/}
-					<Button
+					{/* <Button
 						title="点击的按钮必须设置title"
 						onPress={() => console.warn('123哈哈')}
-					/>
+					/> */}
 					{/* 加载中……圆圈动画，size('small' 或 'large')和color */}
 					{/* 列表组件，ListView也是一个列表组件，但是过失了；使用FlatList来表示列表 */}
-					{/* 	<FlatList
-						data={DATA}
+					<FlatList
+						data={this.state.DATA}
+						extraData={this.state}
 						renderItem={renderItem}
 						keyExtractor={(item) => item.id}
-					/> */}
+					/>
 					<ActivityIndicator
 						size="large"
 						color="#ee2324"
@@ -123,8 +131,11 @@ export default class App extends Component<{}> {
 // 文本值样式，必须加单引号
 const styles = StyleSheet.create({
 	container: {
-		paddingTop: StatusBar.currentHeight,
-		flex: 1
+		// paddingTop: StatusBar.currentHeight,
+		flex: 1,
+		// justifyContent: 'flex-start',
+		alignItems: 'center',
+		overflow: 'hidden'
 	},
 	welcome: {
 		fontSize: 20,
@@ -151,13 +162,14 @@ const styles = StyleSheet.create({
 		fontSize: 32
 	},
 	scrollView: {
-		backgroundColor: 'green',
-		marginHorizontal: 20,
-		flex: 0.4
+		width: '100%',
+		backgroundColor: 'pink',
+		flex: 1
 	},
 	scro: {
 		// 设置一个上内边距，将滚动条挤压出来了
-		paddingVertical: 200
+		// paddingVertical: 600
+		paddingBottom: 1000
 	}
 });
 /**
