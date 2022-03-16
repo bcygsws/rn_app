@@ -2,7 +2,7 @@
 
 ## BUG 修复
 
-### RN 项目中使用 fontAwesome 图标[配置 react-native-vector-icons 官方文档](https://github.com/oblador/react-native-vector-icons)，按照步骤进行完后，重新构建项目报错
+### 一、RN 项目中使用 fontAwesome 图标[配置 react-native-vector-icons 官方文档](https://github.com/oblador/react-native-vector-icons)，按照步骤进行完后，重新构建项目报错
 
 #### 为使用字体图标，安装 react-native-vector-icons 包，然后逐步修改配置文件，需要重新构建一下项目
 
@@ -20,3 +20,26 @@
 -   解决思路来源：[参考文档](https://github.com/oblador/react-native-vector-icons/issues/873)
 -   之后，在终端 android 路径，使用$ ./gradlew clean 命令构建成功
 -   使用 cd ../命令，回到项目根目录，react-native run-android 也成功了
+
+## 二、RN 项目报错：Cannot read properties of undefined (reading 'x')
+
+### 原因
+
+-   是使用了 react-native-swiper 插件，并设置了自动播放，即 autoPlay={true}。关闭该属性，再调试,报错消失
+
+### 解决方案
+
+#### 关掉自动播放，没有提示错误了
+
+#### 若将下列代码加到 react-native-swiper\src\index.js:396 行(注：加到 396 行，bug 没有解决)，卸载手机上的包重新打包安装，轮播图正常
+
+-   [解决思路-参考文档](https://github.com/leecade/react-native-swiper/issues/582)
+-   react-native-swiper\src\index.js:401 行添加：
+    if(offset === undefined || this.internals.offset === undefined){
+    return;
+    }
+    先将 401 行恢复原状，react-native-swiper\src\index.js:396 行添加：
+    if(offset === undefined || this.internals.offset === undefined){
+    return;
+    }
+ 

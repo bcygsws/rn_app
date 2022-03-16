@@ -9,8 +9,9 @@ import TabNavigator from 'react-native-tab-navigator';
 import HomeView from './components/tabbar/Home.js';
 import MeView from './components/tabbar/Me.js';
 import SearchView from './components/tabbar/Search.js';
+import ShopView from './components/tabbar/Shop.js';
 // 按需导入FontAwesome.ttf库中的图片
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
 	Platform, // 用来提供平台检测的
 	StyleSheet, // StyleSheet.create({样式})为当前组件书写样式，类样式写作className={styles.container}
@@ -69,21 +70,59 @@ export default class App extends Component<{}> {
 				<TabNavigator>
 					<TabNavigator.Item
 						selected={this.state.selectedTab === 'home'}
-						title="Home"
+						title="主页"
+						renderIcon={() => (
+							<Icon name="home" size={25} color="gray" />
+						)}
+						renderSelectedIcon={() => (
+							<Icon name="home" size={25} color="#0079FF" />
+						)}
 						onPress={() => this.setState({ selectedTab: 'home' })}
 					>
-						<HomeView />
+						<HomeView style={{ height: 300 }} />
 					</TabNavigator.Item>
 					<TabNavigator.Item
 						selected={this.state.selectedTab === 'search'}
-						title="Search"
+						title="搜索"
+						renderIcon={() => (
+							<Icon name="search" size={25} color="gray" />
+						)}
+						renderSelectedIcon={() => (
+							<Icon name="search" size={25} color="#0079FF" />
+						)}
 						onPress={() => this.setState({ selectedTab: 'search' })}
 					>
 						<SearchView />
 					</TabNavigator.Item>
 					<TabNavigator.Item
+						selected={this.state.selectedTab === 'shopping'}
+						title="购物车"
+						renderIcon={() => (
+							<Icon name="shopping-cart" size={25} color="gray" />
+						)}
+						renderSelectedIcon={() => (
+							<Icon
+								name="shopping-cart"
+								size={25}
+								color="#0079FF"
+							/>
+						)}
+						badgeText="1"
+						onPress={() =>
+							this.setState({ selectedTab: 'shopping' })
+						}
+					>
+						<ShopView />
+					</TabNavigator.Item>
+					<TabNavigator.Item
 						selected={this.state.selectedTab === 'me'}
-						title="Me"
+						title="我"
+						renderIcon={() => (
+							<Icon name="user" size={25} color="black" />
+						)}
+						renderSelectedIcon={() => (
+							<Icon name="user" size={25} color="#0079FF" />
+						)}
 						onPress={() => this.setState({ selectedTab: 'me' })}
 					>
 						<MeView />
