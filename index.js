@@ -1,5 +1,5 @@
 import { AppRegistry } from 'react-native';
-import App from './App';
+import Main from './Main';
 // 导入自定义的首屏组件
 // import MyHomePage from './MyHomePage.js';
 
@@ -14,4 +14,4 @@ import App from './App';
  *
  */
 // AppRegistry.registerComponent('rn_app', () => MyHomePage);
-AppRegistry.registerComponent('rn_app', () => App);
+AppRegistry.registerComponent('rn_app', () => Main);

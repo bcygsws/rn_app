@@ -90,7 +90,10 @@ export default class HomeView extends Component<{}> {
 							留言反馈
 						</Text>
 					</View>
-					<View style={[styles.item, styles.item1]}>
+					<View
+						style={[styles.item, styles.item1]}
+						onClick={this.goMovie}
+					>
 						<Image
 							source={require('../../images/menu5.png')}
 							style={styles.tinyLogo}
@@ -116,6 +119,9 @@ export default class HomeView extends Component<{}> {
 			</View>
 		);
 	}
+	goMovie = () => {
+		console.log(this);
+	};
 	componentWillMount() {
 		// 请求轮播图图片数据
 		fetch('http://www.liulongbin.top:3005/api/getlunbo')
@@ -163,7 +169,7 @@ const styles = StyleSheet.create({
 	},
 	item: {
 		width: '33.33%',
-		height: 130,
+		height: 120,
 		backgroundColor: '#fff',
 		display: 'flex',
 		flexDirection: 'column',
@@ -179,8 +185,8 @@ const styles = StyleSheet.create({
 	},
 	tinyLogo: {
 		marginTop: 10,
-		width: 90,
-		height: 90,
+		width: 80,
+		height: 80,
 		resizeMode: 'cover'
 	}
 });

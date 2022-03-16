@@ -145,6 +145,11 @@ const styles = StyleSheet.create({
  * 3.导入StyleSheet,也是从react-native包中按需引入。为组件绑定类样式，const styles= StyleSheet.create({})
  * 4.使用react语法创建组件，标签组件只能使用RN提供的，不能使用网页中提供的标签
  *
- *
+ * RN路由使用第三方插件react-native-router-flux
+ * 1.新建Main.js文件，Main.js在index.js中设定为首屏页面
+ * 2.将App组件嵌套进来
+ * 3.在App组件中引入包，render函数中将Router嵌套到最外层
+ * 
+ * 
  *
  */
