@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Router, Stack, Scene } from 'react-native-router-flux';
 import App from './App';
+import MovieList from './components/movie/MovieList.js';
 export default class Main extends Component {
 	constructor(props) {
 		super(props);
@@ -20,6 +21,12 @@ export default class Main extends Component {
 						title="这是App组件"
 						hideNavBar={true}
 					/>
+					{/* 进入电影列表的路由规则 */}
+					<Scene
+						key="movielist"
+						component={MovieList}
+						title="电影列表"
+					></Scene>
 				</Stack>
 			</Router>
 		);

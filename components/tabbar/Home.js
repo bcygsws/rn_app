@@ -12,7 +12,15 @@
  */
 import React, { Component } from 'react';
 import Swiper from 'react-native-swiper';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import {
+	View,
+	Text,
+	StyleSheet,
+	Image,
+	TouchableHighlight
+} from 'react-native';
+// 按需导入编程式导航需要的Actions
+import { Actions } from 'react-native-router-flux';
 export default class HomeView extends Component<{}> {
 	constructor(props) {
 		super(props);
@@ -90,20 +98,26 @@ export default class HomeView extends Component<{}> {
 							留言反馈
 						</Text>
 					</View>
-					<View
+					{/* 注意：
+					1.TouchableHighlight只支持一个子节点，不能没有子节点，也不能多于一个子节点，View标签直接放进去
+					2.嵌套的子节点view变形，解决；把嵌套的view的样式整体交给touchableHight就好了
+					3.点击是，背景的底色使用underlayColor控制 
+					4.选中时，透明图activeOpacity控制*/}
+
+					<TouchableHighlight
 						style={[styles.item, styles.item1]}
-						onClick={this.goMovie}
+						underlayColor="#fff"
+						activeOpacity={0.6}
+						onPress={this.goMovie}
 					>
-						<Image
-							source={require('../../images/menu5.png')}
-							style={styles.tinyLogo}
-						/>
-						<Text
-							style={{ height: 20, lineHeight: 20, fontSize: 12 }}
-						>
-							热映电影
-						</Text>
-					</View>
+						<View>
+							<Image
+								source={require('../../images/menu5.png')}
+								style={styles.tinyLogo}
+							/>
+							<Text style={styles.txt}>热映电影</Text>
+						</View>
+					</TouchableHighlight>
 					<View style={[styles.item, styles.item1]}>
 						<Image
 							source={require('../../images/menu6.png')}
@@ -121,6 +135,10 @@ export default class HomeView extends Component<{}> {
 	}
 	goMovie = () => {
 		console.log(this);
+		// 编程式导航
+		// 1.按需导入{Actions},从react-native-router-flux中
+		// 2.Actions.key值(对象参数)
+		Actions.movielist();
 	};
 	componentWillMount() {
 		// 请求轮播图图片数据
@@ -173,6 +191,8 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		display: 'flex',
 		flexDirection: 'column',
+		/* 使用touchableHighlight后，将其直接嵌套的唯一子元素属性交给touchableHighlight后，alignItems控制的文本居中失效，
+		改为txt添加textAlign属性 */
 		alignItems: 'center',
 		borderStyle: 'solid',
 		borderBottomColor: '#eee',
@@ -182,6 +202,12 @@ const styles = StyleSheet.create({
 	},
 	item1: {
 		borderBottomWidth: 0
+	},
+	txt: {
+		height: 20,
+		lineHeight: 20,
+		fontSize: 12,
+		textAlign: 'center'
 	},
 	tinyLogo: {
 		marginTop: 10,
