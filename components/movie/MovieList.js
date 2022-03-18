@@ -6,8 +6,8 @@ import {
 	ActivityIndicator,
 	SafeAreaView
 } from 'react-native';
-// 导入电影列表数据
-import movies from '../../data/movies';
+// 导入电影列表数据,json格式数据导入其他js文件，就是一个对象了，无需再使用JSON.parse()
+import movies from '../../data/movies.json';
 import MovieItem from './MovieItem.js';
 export default class MovieList extends Component<{}> {
 	constructor(props) {
@@ -33,16 +33,13 @@ export default class MovieList extends Component<{}> {
 		if (this.state.isLoading) {
 			return (
 				<View style={styles.container}>
-					<ActivityIndicator size="large" color="#00ff00" />
+					<ActivityIndicator size="large" color="#0079FF" />
 				</View>
 			);
 		} else {
 			return (
 				<SafeAreaView style={styles.safeArea}>
-					<ScrollView
-						style={styles.scroll}
-						contentContainerStyle={styles.contentContainer}
-					>
+					<ScrollView style={styles.scroll}>
 						{this.state.movies.map((item, index) => {
 							return (
 								<MovieItem key={index} {...item}></MovieItem>
@@ -58,6 +55,10 @@ export default class MovieList extends Component<{}> {
 		 *
 		 * @ 电影列表数据接口
 		 * https://api.wmdb.tv/api/v1/top?type=Imdb&skip=0&limit=50&lang=Cn
+		 * 上述接口图片加载不出来，遂使用：
+		 * https://movie.douban.com/j/search_subjects?type=movie&tag=%E7%83%AD%E9%97%A8&sort=recommend&page_limit=200&page_start=0
+		 * 有下载次数限次，使用postman拿到数据后，转为本地
+		 *
 		 *
 		 */
 		this.getList();
@@ -93,20 +94,22 @@ export default class MovieList extends Component<{}> {
 			this.setState(
 				{
 					isLoading: false,
-					movies: movies
+					// movies: JSON.parse(movies).subjects // json格式数据导入其他js文件，已经是对象，无需使用JSON.parse()方法再处理
+					movies: movies.subjects
 				},
 				function () {
 					console.log(this.state.movies);
 				}
 			);
-		}, 2000);
+		}, 1000);
 	};
 }
 // 测试发现：flex:1套在最外层盒子上，是有效果的，不要在其子组件或孙子组件再次使用flex:1,而是应该使用height百分比
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		flexDirection: 'row',
+		width: '100%',
+		// flex: 1,
+		height: '100%',
 		justifyContent: 'center'
 	},
 	safeArea: {
@@ -114,14 +117,9 @@ const styles = StyleSheet.create({
 		/* 测试时尽量用实际高度代替flex，flex很多时候是失灵的 */
 		// flex: 1, // ScrollView不显示
 		// height: 500,// ……显示
-		height: '100%',
-		backgroundColor: 'green'
+		height: '100%'
 	},
 	scroll: {
-		backgroundColor: 'pink',
-		marginHorizontal: 10
-	},
-	contentContainer: {
-		paddingBottom: 200
+		paddingHorizontal: 10
 	}
 });

@@ -130,6 +130,13 @@ export default class HomeView extends Component<{}> {
 						</Text>
 					</View>
 				</View>
+				{/* 测试https路径图片能否正常显示 */}
+				{/* <Image
+					source={{
+						uri: 'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2670448229.jpg'
+					}}
+					style={{ width: 60, height: 100 }}
+				></Image> */}
 			</View>
 		);
 	}
