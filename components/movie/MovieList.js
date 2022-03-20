@@ -5,10 +5,13 @@ import {
 	ActivityIndicator,
 	FlatList,
 	Image,
-	Text
+	Text,
+	TouchableHighlight
 } from 'react-native';
 // 导入电影列表数据,json格式数据导入其他js文件，就是一个对象了，无需再使用JSON.parse()
 import movies from '../../data/movies.json';
+// 导入编程式导航需要的Actions
+import { Actions } from 'react-native-router-flux';
 export default class MovieList extends Component {
 	constructor(props) {
 		super(props);
@@ -33,29 +36,65 @@ export default class MovieList extends Component {
 	// 1.FlatList 的renderItem函数，用于渲染列表项，它必须传入一个对象包裹的参数：{item}，将data中传入的对象数据解构出来
 	// 2.FlatList 继承ScrollView所有的属性，如果嵌套在其他同滚动方向的FlatList中则无效
 	renderItem = ({ item }) => {
+		// return (
+		// 	<View style={styles.item_container}>
+		// 		<Image style={styles.item_ig} source={{ uri: item.cover }} />
+		// 		<View style={styles.item_box}>
+		// 			<Text>
+		// 				<Text style={styles.item_txt}>电影名称：</Text>
+		// 				{item.title}
+		// 			</Text>
+		// 			<Text>
+		// 				<Text style={styles.item_txt}>播放类型：</Text>
+		// 				{item.playable ? '免费观看' : '会员专属'}
+		// 			</Text>
+		// 			<Text>
+		// 				<Text style={styles.item_txt}>最新上映：</Text>
+		// 				{item.is_new ? '是' : '否'}
+		// 			</Text>
+		// 			<Text>
+		// 				<Text style={styles.item_txt}>电影评分:</Text>
+		// 				{item.rate}分
+		// 			</Text>
+		// 		</View>
+		// 		{/* 渲染分割线，使用FlatList的ItemSeparatorComponent */}
+		// 	</View>
+		// );
+		// 点击跳转时，View最外层加一层标签TouchableHighlight
 		return (
-			<View style={styles.item_container}>
-				<Image style={styles.item_ig} source={{ uri: item.cover }} />
-				<View style={styles.item_box}>
-					<Text>
-						<Text style={styles.item_txt}>电影名称：</Text>
-						{item.title}
-					</Text>
-					<Text>
-						<Text style={styles.item_txt}>播放类型：</Text>
-						{item.playable ? '免费观看' : '会员专属'}
-					</Text>
-					<Text>
-						<Text style={styles.item_txt}>最新上映：</Text>
-						{item.is_new ? '是' : '否'}
-					</Text>
-					<Text>
-						<Text style={styles.item_txt}>电影评分:</Text>
-						{item.rate}分
-					</Text>
+			<TouchableHighlight
+				underlayColor="#eee"
+				activityOpacity={0.6}
+				onPress={() => {
+					Actions.movieitem({ id: item.id });
+				}}
+			>
+				<View style={styles.item_container}>
+					<Image
+						style={styles.item_ig}
+						source={{ uri: item.cover }}
+					/>
+					<View style={styles.item_box}>
+						<Text>
+							<Text style={styles.item_txt}>电影名称：</Text>
+							{item.title}
+						</Text>
+						<Text>
+							<Text style={styles.item_txt}>播放类型：</Text>
+							{item.playable ? '免费观看' : '会员专属'}
+						</Text>
+						<Text>
+							<Text style={styles.item_txt}>最新上映：</Text>
+							{item.is_new ? '是' : '否'}
+						</Text>
+						<Text>
+							<Text style={styles.item_txt}>电影评分:</Text>
+							{item.rate}分
+						</Text>
+					</View>
+					{/* 渲染分割线，使用FlatList的ItemSeparatorComponent */}
 				</View>
-				{/* 渲染分割线，使用FlatList的ItemSeparatorComponent */}
-			</View>
+			</TouchableHighlight>
 		);
 	};
 	// 渲染列表边框
@@ -165,11 +204,11 @@ export default class MovieList extends Component {
 		}, 1000);
 	};
 	reachedHandle = () => {
-		console.log('执行了吗？');
+		// console.log('执行了吗？');
 		// 页码变化前，有一个判断，是否是最后一页了，没有可加载的页了，19页的时候，20>20,为false。后面的代码可以继续执行
 		if (this.state.curPage + 1 > this.state.totalPage) return;
 		this.setState({ curPage: this.state.curPage + 1 }, function () {
-			console.log('执行了吗2？');
+			// console.log('执行了吗2？');
 			this.getList();
 		});
 	};
