@@ -65,8 +65,8 @@ export default class MovieList extends Component {
 			<TouchableHighlight
 				underlayColor="#eee"
 				activityOpacity={0.6}
-				onPress={() => {
-					Actions.movieitem({ id: item.id });
+				onPress={(item) => {
+					this.pressHandle(item);
 				}}
 			>
 				<View style={styles.item_container}>
@@ -96,6 +96,10 @@ export default class MovieList extends Component {
 				</View>
 			</TouchableHighlight>
 		);
+	};
+	// onPress事件处理函数-编程式导航去往详情页
+	pressHandle = (item) => {
+		Actions.movieitem({ id: item.id });
 	};
 	// 渲染列表边框
 	renderSeparator = () => {

@@ -13,10 +13,10 @@ import {
 	ScrollView,
 	StyleSheet
 } from 'react-native';
+import details from '../../data/details.json';
 // 时间格式化导入dateFormat
 import dateFormat from '../../utils/date.js';
 // 详情页数据
-import details from '../../data/details.json';
 export default class MovieItem extends Component {
 	constructor(props) {
 		super(props);
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
 		// backgroundColor: 'orange'
 	},
 	movie_title: {
-		fontSize: 24,
+		fontSize: 22,
 		fontWeight: '700',
 		textAlign: 'center'
 	},
@@ -153,24 +153,22 @@ const styles = StyleSheet.create({
 		height: 70,
 		flexDirection: 'row',
 		// backgroundColor: '#ee2322',
-		justifyContent: 'space-between'
+		justifyContent: 'center'
 	},
 	left: {
-		flex: 1,
-		marginRight: 15
+		flex: 1
 	},
 	right: {
-		flex: 1,
-		marginLeft: 15
+		flex: 0.5
 	},
 	txt: {
-		height: 30,
-		lineHeight: 30,
-		fontSize: 16
+		height: 24,
+		lineHeight: 24,
+		fontSize: 14
 	},
 	ig: {
 		width: '60%',
-		height: 240,
+		height: 250,
 		marginVertical: 10
 	},
 	des_box: {
