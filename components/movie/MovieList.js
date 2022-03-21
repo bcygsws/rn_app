@@ -12,6 +12,8 @@ import {
 import movies from '../../data/movies.json';
 // 导入编程式导航需要的Actions
 import { Actions } from 'react-native-router-flux';
+// 定义定时器名称
+var timer;
 export default class MovieList extends Component {
 	constructor(props) {
 		super(props);
@@ -68,6 +70,7 @@ export default class MovieList extends Component {
 				onPress={(item) => {
 					this.pressHandle(item);
 				}}
+				style={styles.t_item}
 			>
 				<View style={styles.item_container}>
 					<Image
@@ -98,8 +101,8 @@ export default class MovieList extends Component {
 		);
 	};
 	// onPress事件处理函数-编程式导航去往详情页
-	pressHandle = (item) => {
-		Actions.movieitem({ id: item.id });
+	pressHandle = (prop) => {
+		Actions.movieitem({ id: prop.id });
 	};
 	// 渲染列表边框
 	renderSeparator = () => {
@@ -190,7 +193,7 @@ export default class MovieList extends Component {
 		// 使用本地数据和定时器模拟请求后台数据这一异步过程
 		let start = (this.state.curPage - 1) * this.state.pageSize;
 		let end = this.state.curPage * this.state.pageSize;
-		setTimeout(() => {
+		timer = setTimeout(() => {
 			this.setState(
 				{
 					isLoading: false,
@@ -216,14 +219,17 @@ export default class MovieList extends Component {
 			this.getList();
 		});
 	};
+	componentWillUnmount() {
+		clearTimeout(timer);
+	}
 }
 
 // 测试发现：flex:1套在最外层盒子上，是有效果的，不要在其子组件或孙子组件再次使用flex:1,而是应该使用height百分比
 const styles = StyleSheet.create({
 	container: {
 		width: '100%',
-		// flex: 1,
 		height: '100%',
+		flexDirection: 'column',
 		justifyContent: 'center'
 	},
 	// safeArea: {
@@ -242,9 +248,13 @@ const styles = StyleSheet.create({
 		// height: '100%'
 		// backgroundColor: '#ee2322'
 	},
+	t_item: {
+		width: '100%',
+		height: 140
+	},
 	item_container: {
 		width: '100%',
-		height: 140,
+		height: '100%',
 		flexDirection: 'row',
 		paddingVertical: 10
 	},

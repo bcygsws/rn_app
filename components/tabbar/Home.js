@@ -36,7 +36,7 @@ export default class HomeView extends Component<{}> {
 						style={styles.wrapper}
 						showsButtons={true}
 						autoplay={true}
-						autoplayTimeout={5}
+						autoplayTimeout={3}
 						autoplayDirection={true}
 						loop={true}
 					>
@@ -87,7 +87,7 @@ export default class HomeView extends Component<{}> {
 							商品购买
 						</Text>
 					</View>
-					<View style={[styles.item, styles.item1]}>
+					<View style={styles.item1}>
 						<Image
 							source={require('../../images/menu4.png')}
 							style={styles.tinyLogo}
@@ -105,12 +105,12 @@ export default class HomeView extends Component<{}> {
 					4.选中时，透明图activeOpacity控制*/}
 
 					<TouchableHighlight
-						style={[styles.item, styles.item1]}
 						underlayColor="#fff"
 						activeOpacity={0.6}
 						onPress={this.goMovie}
+						style={styles.touch}
 					>
-						<View>
+						<View style={styles.t_item}>
 							<Image
 								source={require('../../images/menu5.png')}
 								style={styles.tinyLogo}
@@ -118,7 +118,7 @@ export default class HomeView extends Component<{}> {
 							<Text style={styles.txt}>热映电影</Text>
 						</View>
 					</TouchableHighlight>
-					<View style={[styles.item, styles.item1]}>
+					<View style={styles.item1}>
 						<Image
 							source={require('../../images/menu6.png')}
 							style={styles.tinyLogo}
@@ -141,7 +141,7 @@ export default class HomeView extends Component<{}> {
 		);
 	}
 	goMovie = () => {
-		console.log(this);
+		// console.log(this);
 		// 编程式导航
 		// 1.按需导入{Actions},从react-native-router-flux中
 		// 2.Actions.key值(对象参数)
@@ -192,11 +192,23 @@ const styles = StyleSheet.create({
 		flexWrap: 'wrap',
 		justifyContent: 'space-between'
 	},
+	touch: {
+		width: '33.33%',
+		height: 120,
+		borderStyle: 'solid',
+		borderRightColor: '#eee',
+		borderRightWidth: 1
+	},
+	t_item: {
+		width: '100%',
+		height: '100%',
+		flexDirection: 'column',
+		alignItems: 'center'
+	},
 	item: {
 		width: '33.33%',
 		height: 120,
 		backgroundColor: '#fff',
-		display: 'flex',
 		flexDirection: 'column',
 		/* 使用touchableHighlight后，将其直接嵌套的唯一子元素属性交给touchableHighlight后，alignItems控制的文本居中失效，
 		改为txt添加textAlign属性 */
@@ -208,7 +220,17 @@ const styles = StyleSheet.create({
 		borderRightWidth: 1
 	},
 	item1: {
-		borderBottomWidth: 0
+		width: '33.33%',
+		height: 120,
+		backgroundColor: '#fff',
+		display: 'flex',
+		flexDirection: 'column',
+		/* 使用touchableHighlight后，将其直接嵌套的唯一子元素属性交给touchableHighlight后，alignItems控制的文本居中失效，
+		改为txt添加textAlign属性 */
+		alignItems: 'center',
+		borderStyle: 'solid',
+		borderRightColor: '#eee',
+		borderRightWidth: 1
 	},
 	txt: {
 		height: 20,
