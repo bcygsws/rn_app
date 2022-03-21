@@ -67,8 +67,8 @@ export default class MovieList extends Component {
 			<TouchableHighlight
 				underlayColor="#eee"
 				activityOpacity={0.6}
-				onPress={(item) => {
-					this.pressHandle(item);
+				onPress={() => {
+					Actions.movieitem({ id: item.id });
 				}}
 				style={styles.t_item}
 			>
@@ -101,9 +101,8 @@ export default class MovieList extends Component {
 		);
 	};
 	// onPress事件处理函数-编程式导航去往详情页
-	pressHandle = (prop) => {
-		Actions.movieitem({ id: prop.id });
-	};
+	// pressHandle = (prop) => {
+	// };
 	// 渲染列表边框
 	renderSeparator = () => {
 		return (
@@ -143,7 +142,7 @@ export default class MovieList extends Component {
 				<FlatList
 					data={this.state.movies}
 					renderItem={this.renderItem}
-					keyExtractor={(item) => item.id}
+					keyExtractor={(item, index) => item.id} // 解决key的问题
 					ItemSeparatorComponent={this.renderSeparator}
 					onEndReachedThreshold={0.5}
 					onEndReached={this.reachedHandle}
