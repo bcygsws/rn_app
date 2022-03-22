@@ -25,7 +25,7 @@ const instructions = Platform.select({
 		'Shake or press menu button for dev menu'
 });
 // <{}>这是TS的语法
-export default class App extends Component<{}> {
+export default class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
  * 1.新建Main.js文件，Main.js在index.js中设定为首屏页面
  * 2.将App组件嵌套进来
  * 3.在App组件中引入包，render函数中将Router嵌套到最外层
- * 
- * 
+ *
+ *
  *
  */

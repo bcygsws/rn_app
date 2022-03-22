@@ -15,11 +15,11 @@ import {
 } from 'react-native';
 import details from '../../data/details.json';
 // 时间格式化导入dateFormat
-import dateFormat from '../../utils/date.js';
+// import dateFormat from '../../utils/date.js';
 // 定时器
 var timer1;
 // 详情页数据
-export default class MovieItem extends Component<{}> {
+export default class MovieItem extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -27,7 +27,7 @@ export default class MovieItem extends Component<{}> {
 			// 当前详情信息
 			info: {},
 			// 控制加载动画
-			isLoading: true
+			isloading: true
 		};
 	}
 
@@ -49,12 +49,17 @@ export default class MovieItem extends Component<{}> {
 		// 			console.log(err);
 		// 		});
 		// 用定时器模拟异步请求过程-数据接口请求有次数限制
-		timer1 = window.setTimeout(() => {
+		timer1 = setTimeout(() => {
 			console.log(this);
-			this.setState({
-				info: details.info,
-				isLoading: false
-			});
+			this.setState(
+				{
+					info: details.info,
+					isloading: false
+				},
+				function () {
+					console.log(this.state.info);
+				}
+			);
 		}, 1500);
 	}
 
@@ -71,8 +76,10 @@ export default class MovieItem extends Component<{}> {
 	}
 
 	// 控制进入【详情页】加载动画和详情页的切换
+	// 时间格式化：已经绑定在React.component.prototype.dateFormat原型上，this实例就可以直接调用，这是原型链的应用
+	// emsp;一个中文宽度，ensp;半个中文宽度；nbsp;普通的英文半角空格但不换行
 	showAnimationOrDetail = () => {
-		if (this.state.isLoading) {
+		if (this.state.isloading) {
 			return (
 				<View style={styles.ind_container}>
 					<ActivityIndicator size="large" color="#0079FF" />
@@ -87,10 +94,10 @@ export default class MovieItem extends Component<{}> {
 							{this.state.info.title}
 						</Text>
 						<View style={styles.box}>
-							<View style={styles.left}>
+							<View style={styles.l_box}>
 								<Text style={styles.txt}>
 									上映时间：
-									{dateFormat(this.state.info.playedAt)}
+									{this.dateFormat(this.state.info.playedAt)}
 								</Text>
 								<Text style={styles.txt}>
 									播放类型：
@@ -99,7 +106,7 @@ export default class MovieItem extends Component<{}> {
 										: '会员专享'}
 								</Text>
 							</View>
-							<View style={styles.right}>
+							<View style={styles.r_box}>
 								<Text style={styles.txt}>
 									最新更新：
 									{this.state.info.is_new ? '是' : '否'}
@@ -114,7 +121,6 @@ export default class MovieItem extends Component<{}> {
 							style={styles.ig}
 						></Image>
 						<View style={styles.des_box}>
-							{/* emsp;一个中文宽度，ensp;半个中文宽度；nbsp;普通的英文半角空格但不换行 */}
 							<Text style={styles.des}>
 								&emsp;&emsp; 剧情梗概：
 								{this.state.info.description}
@@ -128,27 +134,22 @@ export default class MovieItem extends Component<{}> {
 	componentWillUnmount() {
 		clearTimeout(timer1);
 	}
-	// 分割线，组件类的结束花括号
 }
 const styles = StyleSheet.create({
-	/* ScrollView外层 */
 	mov_container: {
 		width: '100%',
 		height: '100%'
-		// backgroundColor: 'green',
-		// paddingHorizontal: 10
 	},
 	scroll: {
 		flex: 1
 	},
 	container: {
-		width: '100%',
-		// backgroundColor: 'pink',
 		// height: 1000,
+		// backgroundColor: 'orange'
+		width: '100%',
 		flexDirection: 'column',
 		padding: 10,
 		alignItems: 'center'
-		// backgroundColor: 'orange'
 	},
 	movie_title: {
 		fontSize: 22,
@@ -158,17 +159,17 @@ const styles = StyleSheet.create({
 		width: '100%',
 		height: 60,
 		flexDirection: 'row',
-		justifyContent: 'center'
+		justifyContent: 'space-between'
 	},
-	left: {
+	l_box: {
 		flex: 1
 	},
-	right: {
+	r_box: {
 		flex: 0.5
 	},
 	txt: {
-		lineHeight: 20,
-		fontSize: 14
+		fontSize: 14,
+		lineHeight: 20
 	},
 	ig: {
 		width: '60%',
@@ -188,8 +189,8 @@ const styles = StyleSheet.create({
 		// 多行文本的总高度
 		// 多行中每一行的行高
 	},
-	// 加载动画样式
 	ind_container: {
+		// 加载动画样式
 		height: '100%',
 		flexDirection: 'row',
 		justifyContent: 'center'
