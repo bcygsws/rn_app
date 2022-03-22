@@ -31,21 +31,21 @@
 -   defaultConfig { ... }
 -
 -   signingConfigs {
--                  release {
--                  storeFile file(MYAPP_RELEASE_STORE_FILE)
--                  storePassword MYAPP_RELEASE_STORE_PASSWORD
--                  keyAlias MYAPP_RELEASE_KEY_ALIAS
--                  keyPassword MYAPP_RELEASE_KEY_PASSWORD
--                  }
--                 }
--                 buildTypes {
--                  release {
--                  ...
--                         signingConfig signingConfigs.release
--                               }
--                           }
--                 }
--                  ...
+-                          release {
+-                          storeFile file(MYAPP_RELEASE_STORE_FILE)
+-                          storePassword MYAPP_RELEASE_STORE_PASSWORD
+-                          keyAlias MYAPP_RELEASE_KEY_ALIAS
+-                          keyPassword MYAPP_RELEASE_KEY_PASSWORD
+-                          }
+-                         }
+-                         buildTypes {
+-                          release {
+-                          ...
+-                                 signingConfig signingConfigs.release
+-                                       }
+-                                   }
+-                         }
+-                          ...
 
 7.  从根目录切换到且 android 路径下使用命令：$ ./gradlew assembleRelease 如果打包出现报错内容：'Unable to process incoming event 'ProgressComplete ' (ProgressCompleteEvent)'。不能处理传入的事件。说是代码混淆的问题，具体原因不详……
 
@@ -101,7 +101,7 @@
     return;
     }
 
-## 从根目录切换至 android 目录，运行命令：$ ./gradlew assembleRelease 打包 文件报错
+## 三、从根目录切换至 android 目录，运行命令：$ ./gradlew assembleRelease 打包 文件报错
 
 ### 原因
 
@@ -112,3 +112,21 @@
 -   切换至项目根目录下的 android 路径，使用./gradlew.bat assembleRelease --console plain 命令打包
 -   [参考文档 1](https://blog.csdn.net/hanjiyu/article/details/74841503?spm=1001.2101.3001.6650.5&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-5.topblog&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-5.topblog)
 -   [参考文档 2](https://blog.csdn.net/aexwx/article/details/79436445)
+
+## 四、打包后，进入详情页从动画切换至详情页时，闪退
+
+### 原因
+
+-   之前使用为 React.Component 的原型绑定 dateFormat，该方法传入一个字符串，返回格式化的时间。但是，dateFormat 中没有针对 new Date()传入了 undefined 的处理(parseInt(undefined))，new Date(NaN)无法处理。导致在 componentWillMount 中还没有拿到 info 的最新数据时，出现异常。其直接后果是：打包完成后，操作 APP,可以顺利展示详情页显示前动画，但是无法从动画切换到详情页
+
+### 解决方案
+
+#### 方案 1
+
+-   装一个包 moment，a.模块化引入：import moment from 'moment';b.moment(str||0).format('yyyy/MM/dd hh:mm:ss');不推荐这种方法，额外引入第三方包，增加打包的体积。原本几行代码就能够解决
+
+#### 方案 2
+
+-   为内置对象 Date，添加一个原型方法 format。format 中方法中的 this 自然是 Date 构造函数的实例，format 方法调用后，返回值是格式化好的时间
+-   年份有 4 位，通常显示为 2 位或 4 位，单独处理；其他月、日、时、分、秒乃至于季度都先经过 for---in 循环，然后一一拿到值替换 format 传入的格式化字符
+-   最终返回格式化好的时间，并渲染到页面中

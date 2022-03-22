@@ -14,8 +14,8 @@ import {
 	StyleSheet
 } from 'react-native';
 import details from '../../data/details.json';
-// 时间格式化导入dateFormat
-// import dateFormat from '../../utils/date.js';
+// 导入时间格式化模块
+import '../../utils/date.js';
 // 定时器
 var timer1;
 // 详情页数据
@@ -60,7 +60,7 @@ export default class MovieItem extends Component {
 					console.log(this.state.info);
 				}
 			);
-		}, 1500);
+		}, 1000);
 	}
 
 	// react-native-router-flux中编程式导航传递的参数获取：
@@ -78,6 +78,7 @@ export default class MovieItem extends Component {
 	// 控制进入【详情页】加载动画和详情页的切换
 	// 时间格式化：已经绑定在React.component.prototype.dateFormat原型上，this实例就可以直接调用，这是原型链的应用
 	// emsp;一个中文宽度，ensp;半个中文宽度；nbsp;普通的英文半角空格但不换行
+	// parseInt(undefined)=NaN
 	showAnimationOrDetail = () => {
 		if (this.state.isloading) {
 			return (
@@ -97,7 +98,9 @@ export default class MovieItem extends Component {
 							<View style={styles.l_box}>
 								<Text style={styles.txt}>
 									上映时间：
-									{this.dateFormat(this.state.info.playedAt)}
+									{new Date(
+										parseInt(this.state.info.playedAt) || 0
+									).format('yyyy/MM/dd hh:mm:ss')}
 								</Text>
 								<Text style={styles.txt}>
 									播放类型：

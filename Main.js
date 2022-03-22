@@ -4,8 +4,6 @@ import { Router, Stack, Scene } from 'react-native-router-flux';
 import App from './App';
 import MovieList from './components/movie/MovieList.js';
 import MovieItem from './components/movie/MovieItem.js';
-// 导入时间格式化模块
-import './utils/date.js';
 export default class Main extends Component {
 	constructor(props) {
 		super(props);
